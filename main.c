@@ -6,41 +6,13 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:25:04 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/09 13:13:29 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/09 17:10:38 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
-#include <termios.h>
-/*
-** #include <termcap.h>
-** #include <term.h>
-*/
+#include "main.h"
 
-
-typedef	struct s_term
-{
-	struct	termios	set;
-	struct	termios	backup;
-}				t_term;
-
-typedef	struct	s_keys
-{
-	char		k_left[4];
-	char		k_right[4];
-	char		k_up[4];
-	char		k_down[4];
-}				t_keys;
-
-typedef	struct	s_reader
-{
-	char		c;
-	char		*s;
-}				t_reader;
-
-
-void	set_keys(t_keys	*keys)
+void			set_keys(t_keys	*keys)
 {
 	keys->k_left[0] = 27;
 	keys->k_left[1] = '[';
@@ -60,30 +32,65 @@ void	set_keys(t_keys	*keys)
 	keys->k_down[3] = 0;
 }
 
-int		main(int ac, char **av)
+void			fill_str(char *str, int	len,const char c)
+{
+	ft_strncat(str, c, 1);
+}
+
+int				ft_switch_keys(t_reader *reader, t_keys *keys)
+{
+	if (reader->c == 4 && ft_strlen(reader->s) == 0)
+	{
+		write(1, "exit", 4);
+		return (1);
+	}
+	return (0);
+}
+
+int				main(int ac, char **av)
 {
 	t_term		term;
 	t_keys		keys;
 	t_reader	reader;
 	int			enter;
+	char		k[4];
 
-	enter = 0;
+/*
+** 	set read
+*/
 	tcgetattr(0, &term.backup);
 	tcgetattr(0, &term.set);
 	term.set.c_cflag &= ~(ICANON | ECHO | ISIG);
+/*
+** 	set vars
+*/
+	enter = 0;
+	reader.k = k;
+	ft_memset(reader.k, 0, 4);
 	set_keys(&keys);
-
+	reader.s = ft_calloc(2, sizeof(char));
+/*
+** 	loop
+*/
 	while (!enter)
 	{
 		reader.c = 0;
 		read(0, &reader.c, 1);
-		if (reader.c >= ' ' && reader.c <= '~')
+		if ((reader.c >= ' ' && reader.c <= '~') && ft_strlen(k) == 0)
+			fill_str(reader.s, ft_strlen(reader.s), reader.c);
+		if (reader.c == 27 || ft_strlen(k) > 0)
 		{
-			
+			k[ft_strlen(k)] = reader.c;
+			printf("ESC %s\n", k);
 		}
 		if (reader.c == '\n')
 			enter = 1;
+		else if (ft_switch_keys(&reader, &keys))
+			enter = 1;
+		if (ft_strlen(k) >=3)
+			ft_memset(k, 0, 4);
 	}
-	
+	ft_strncat(reader.s, reader.c, 1);
+	printf("STR: %s", reader.s);
 	return (0);
 }
