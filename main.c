@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:25:04 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/09 17:10:38 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/10 18:30:51 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void			fill_str(char *str, int	len,const char c)
 
 int				ft_switch_keys(t_reader *reader, t_keys *keys)
 {
+	//printf("DEC_CHAR: %d\nSTR_LEN: %zu\n", reader->c, ft_strlen(reader->s));
 	if (reader->c == 4 && ft_strlen(reader->s) == 0)
 	{
 		write(1, "exit", 4);
@@ -58,9 +59,11 @@ int				main(int ac, char **av)
 /*
 ** 	set read
 */
-	tcgetattr(0, &term.backup);
-	tcgetattr(0, &term.set);
-	term.set.c_cflag &= ~(ICANON | ECHO | ISIG);
+	if (tcgetattr(0, &term.backup) == -1)
+		return (0);
+	if (tcgetattr(0, &term.set) == -1)
+		return (0);
+	term.set.c_lflag &= ~(ICANON | ECHO | ISIG);
 /*
 ** 	set vars
 */
@@ -74,23 +77,26 @@ int				main(int ac, char **av)
 */
 	while (!enter)
 	{
+		tcsetattr(0, 0, &term.set);
 		reader.c = 0;
 		read(0, &reader.c, 1);
+		if (reader.c == '\n')
+			enter = 1;
 		if ((reader.c >= ' ' && reader.c <= '~') && ft_strlen(k) == 0)
 			fill_str(reader.s, ft_strlen(reader.s), reader.c);
 		if (reader.c == 27 || ft_strlen(k) > 0)
-		{
 			k[ft_strlen(k)] = reader.c;
-			printf("ESC %s\n", k);
-		}
-		if (reader.c == '\n')
-			enter = 1;
 		else if (ft_switch_keys(&reader, &keys))
 			enter = 1;
 		if (ft_strlen(k) >=3)
 			ft_memset(k, 0, 4);
+		write(1, &reader.c, 1);
+		tcsetattr(0, 0, &term.backup);
 	}
-	ft_strncat(reader.s, reader.c, 1);
-	printf("STR: %s", reader.s);
+	if (reader.c == '\n')
+	{
+		ft_strncat(reader.s, reader.c, 1);
+		printf("STR: %s", reader.s);
+	}
 	return (0);
 }
