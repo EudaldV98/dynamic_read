@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 15:00:40 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/11 19:46:08 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/12 15:58:45 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,4 +137,39 @@ int             ft_strncmp(const char *s1, const char *s2, size_t n)
                 i++;
         }
         return (0);
+}
+
+void    *ft_memcpy(void *dst, const void *src, size_t n)
+{
+        int                             i;
+        unsigned char   *d;
+        unsigned char   *s;
+
+        if (!dst && !src)
+                return (NULL);
+        d = (unsigned char*)dst;
+        s = (unsigned char*)src;
+        i = 0;
+        while (n-- > 0)
+        {
+                d[i] = s[i];
+                i++;
+        }
+        return (dst);
+}
+
+void    *ft_memmove(void *dst, const void *src, size_t len)
+{
+        const char      *s;
+        char            *d;
+
+        if ((!dst && !src) || !len)
+                return (dst);
+        s = src;
+        d = dst;
+        if (dst <= src)
+                return (ft_memcpy(dst, src, len));
+        while (len-- > 0)
+                d[len] = s[len];
+        return (d);
 }
