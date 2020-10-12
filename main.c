@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:25:04 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/10 18:30:51 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/11 20:23:56 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,45 @@ void			set_keys(t_keys	*keys)
 
 void			fill_str(char *str, int	len,const char c)
 {
+	write(1, &c, 1);
 	ft_strncat(str, c, 1);
 }
 
-int				ft_switch_keys(t_reader *reader, t_keys *keys)
+int				ft_switch_keys(t_reader *reader, t_keys keys)
 {
-	//printf("DEC_CHAR: %d\nSTR_LEN: %zu\n", reader->c, ft_strlen(reader->s));
 	if (reader->c == 4 && ft_strlen(reader->s) == 0)
 	{
 		write(1, "exit", 4);
 		return (1);
+	}
+	else if (reader->c == 3)
+	{
+		printf("Ctrl c\n");
+		return (1);
+	}
+	else if (ft_strncmp(reader->k, keys.k_left, 4) == 0)
+	{
+		write(1, "K_left\n", 7);
+		return (0);
+/*
+** 		code
+*/
+	}
+	else if (ft_strncmp(reader->k, keys.k_right, 4) == 0)
+	{
+		write(1, "K_right\n", 8);
+		return (0);
+/*
+** 		code
+*/
+	}
+	else if (ft_strncmp(reader->k, keys.k_right, 4) == 0)
+	{
+		write(1, "K_left\n", 7);
+		return (0);
+/*
+** 		code
+*/
 	}
 	return (0);
 }
@@ -80,17 +109,19 @@ int				main(int ac, char **av)
 		tcsetattr(0, 0, &term.set);
 		reader.c = 0;
 		read(0, &reader.c, 1);
+		if ((reader.c >= ' ' && reader.c <= '~') && ft_strlen(reader.k) == 0)
+			fill_str(reader.s, ft_strlen(reader.s), reader.c);
+		if (reader.c == 27 || ft_strlen(reader.k) > 0)
+		{
+			//write(1, "sp_k\n", 5);
+			reader.k[ft_strlen(reader.k)] = reader.c;
+		}
 		if (reader.c == '\n')
 			enter = 1;
-		if ((reader.c >= ' ' && reader.c <= '~') && ft_strlen(k) == 0)
-			fill_str(reader.s, ft_strlen(reader.s), reader.c);
-		if (reader.c == 27 || ft_strlen(k) > 0)
-			k[ft_strlen(k)] = reader.c;
-		else if (ft_switch_keys(&reader, &keys))
+		else if (ft_switch_keys(&reader, keys))
 			enter = 1;
 		if (ft_strlen(k) >=3)
 			ft_memset(k, 0, 4);
-		write(1, &reader.c, 1);
 		tcsetattr(0, 0, &term.backup);
 	}
 	if (reader.c == '\n')

@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 15:03:12 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/09 16:06:57 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/11 19:46:18 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ char    *ft_strdup(const char *s1);
 size_t  ft_strlen(const char *s);
 size_t  ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char	*ft_strncat(char *dest, const char c, int nb);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 #endif
