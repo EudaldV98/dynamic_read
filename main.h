@@ -6,17 +6,18 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 15:03:12 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/12 18:53:33 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/13 18:24:48 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAIN_H
 # define MAIN_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <termios.h>
+# define S_MAX 20
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <termios.h>
 /*
 ** #include <termcap.h>
 ** #include <term.h>
@@ -34,19 +35,24 @@ typedef	struct	s_keys
 	char		k_right[4];
 	char		k_up[4];
 	char		k_down[4];
-	char		k_del[5];
 }				t_keys;
 
 typedef	struct	s_reader
 {
 	char		c;
 	char		*s;
-	char		*tmp;
 	char		*k;
-	char		*hold;
 	int			i;
 	int			len;
+	int			close;
 }				t_reader;
+
+typedef	struct	s_historique
+{
+	int			i;
+	char		*tab[S_MAX];
+}				t_historique;
+
 
 void    *ft_memset(void *b, int c, size_t len);
 void    *ft_calloc(size_t count, size_t size);
@@ -59,5 +65,9 @@ int		ft_Kleft(t_keys keys, t_reader *reader);
 int		ft_Kright(t_keys keys, t_reader *reader);
 void    *ft_memmove(void *dst, const void *src, size_t len);
 int		ft_Kdel(t_keys keys, t_reader *reader);
+void	ft_Kup(t_reader *r);
+void	ft_Kdown(t_reader *r);
+int		ft_Kenter(t_reader *r, t_historique *h);
+
 
 #endif
