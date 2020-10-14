@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:25:04 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/13 18:54:55 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/14 18:12:35 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ void			fill_str(t_reader *r, t_keys keys)
 
 int				ft_exit(t_reader *r)
 {
-	r->close = 1;
+	r->exit = 1;
 	write(1, "exit", 4);
-	return (1);
+	return (0);
 }
 
 int				ft_switch_keys(t_reader *r, t_keys keys)
@@ -90,7 +90,17 @@ int				ft_switch_keys(t_reader *r, t_keys keys)
 
 void				ft_reader(t_reader *r, t_keys keys, t_historique *h, t_term *term)
 {
-	while (r->close == 0)
+	char		k[4];
+
+	r->k = k;
+	ft_memset(r->k, 0, 4);
+	set_keys(&keys);
+	r->s = ft_calloc(2, sizeof(char));
+	r->i = 0;
+	r->len = 0;
+	r->exit = 0;
+	r->ent = 0;
+	while (!r->exit && !r->ent)
 	{
 		tcsetattr(0, 0, &term->set);
 		r->c = 0;
@@ -104,20 +114,23 @@ void				ft_reader(t_reader *r, t_keys keys, t_historique *h, t_term *term)
 		if (ft_strlen(r->k) >=3)
 			ft_memset(r->k, 0, 4);
 		if (r->c == '\n')
+		{
+			ft_strncat(r->s, r->c, 1);
+			r->len++;
+			write(1, "\n", 1);
 		 	ft_Kenter(r, h);
+		}
 		tcsetattr(0, 0, &term->backup);
 	}
 }
 
-int				main()
+int				main(int	ac, char **av)
 {
 	t_term			term;
 	t_keys			keys;
 	t_reader		r;
 	t_historique	h;
-	int			enter;
-	char		k[4];
-
+	int				fd, i;
 /*
 ** 	set read
 */
@@ -129,34 +142,49 @@ int				main()
 /*
 ** 	set vars
 */
-	enter = 0;
-	r.k = k;
-	ft_memset(r.k, 0, 4);
-	set_keys(&keys);
-	r.s = ft_calloc(2, sizeof(char));
-	r.i = 0;
-	r.len = 0;
-	int i = 0;
-	while (i < S_MAX)
+	if (!(fd = open(av[1], O_RDONLY)))
+		return (0);
+
+	char	*buff;
+	int 	ret;
+	int 	line = 0;
+	while ((ret = get_next_line(fd, &buff)) > 0)
 	{
-		h.tab[i] = NULL;
-		i++;
+		printf("[Return: %d] Line #%d: %s\n", ret, ++line, buff);
+		free(buff);
+		break;
 	}
-	r.close = 0;
-	
-	while (!r.close)
-	{	
-		ft_reader(&r, keys, &h, &term);
-
+	printf("[Return: %d] Line #%d: %s\n", ret, ++line, buff);
+	close(fd);
+	fd = 0;
+	line = (line > 0) ? line : 1;
+	if (!(h.tab = malloc(sizeof(char *) * (line + 1))))
+		return (0);
+	h.tab[line] = NULL;
+	if (!(fd = open(av[1], O_RDONLY)))
+		return (0);
+	printf("FD: %d", fd);
+	i = 0;
+	while ((ret = get_next_line(fd, &buff)) > 0)
+	{
+		//h.tab[i] = tmp;
+		printf("LOL%s\n", buff);
+		free(buff);
+		//i++;
 	}
 
-	//if (r.c == '\n')
-	//{
-	//	ft_strncat(r.s, r.c, 1);
-	//	r.len++;
-	printf("STR: %s\nLEN: %zu\n", h.tab[0], ft_strlen(h.tab[0]));
-	//}
-	free(r.s);
-	r.s = NULL;
+	// while (!r.exit)
+	// {	
+	// 	ft_reader(&r, keys, &h, &term);
+	// }
+	// write(1, "\n\n", 2);
+	// i = 0;
+	// while (h.tab[i])
+	// {
+	// 	printf("I = %d STR: %s\n", i, h.tab[i]);
+	// 	i++;
+	// }
+	//free(r.s);
+	//r.s = NULL;
 	return (0);
 }

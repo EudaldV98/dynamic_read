@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 13:11:33 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/13 18:54:37 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/14 12:53:05 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,18 @@ int		ft_Kenter(t_reader *r, t_historique *h)
 	int		i;
 
 	i = S_MAX - 2;
-	printf("\nR.S: %s\n", r->s);
-	h->tab[0] = r->s;
-	printf("H.s: %s\n", h->tab[0]);
 	while (i >= 0)
 	{
 		h->tab[i + 1] = h->tab[i];
 		--i;
 	}
+	h->tab[0] = r->s;
 	if (h->tab[S_MAX - 1] != NULL)
 	{
 		free(h->tab[S_MAX - 1]);
 		h->tab[S_MAX - 1] = NULL;
 	}
-	// free(r->s);
-	// r->s = NULL;
-	// r->s = ft_calloc(2, sizeof(char));
+	r->ent = 1;
 	return (1);
 }
 

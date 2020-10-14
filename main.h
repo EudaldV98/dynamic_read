@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 15:03:12 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/13 18:24:48 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/14 16:21:10 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <termios.h>
+# include <fcntl.h>
+# include "get_next_line.h" 
 /*
 ** #include <termcap.h>
 ** #include <term.h>
@@ -44,13 +46,14 @@ typedef	struct	s_reader
 	char		*k;
 	int			i;
 	int			len;
-	int			close;
+	int			exit;
+	int			ent;
 }				t_reader;
 
 typedef	struct	s_historique
 {
 	int			i;
-	char		*tab[S_MAX];
+	char		**tab;
 }				t_historique;
 
 
