@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:25:04 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/15 16:29:09 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/15 17:37:52 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void			set_keys(t_keys	*keys)
 	keys->k_down[3] = 0;
 }
 
-void			ft_print_char(t_reader *r, t_keys keys)
+void			ft_print_char(t_reader *r, t_keys *keys)
 {
 	int i;
 
@@ -41,12 +41,12 @@ void			ft_print_char(t_reader *r, t_keys keys)
 	write(1, &r->s[r->i], ft_strlen(&r->s[r->i]));
 	while ((size_t)(i) < ft_strlen(&r->s[r->i]))
 	{
-		write(1, keys.k_left, 3);
+		write(1, keys->k_left, 3);
 		++i;
 	}
 }
 
-void			fill_str(t_reader *r, t_keys keys)
+void			fill_str(t_reader *r, t_keys *keys)
 {
 	if (r->i == r->len)
 		ft_strncat(r->s, r->c, 1);
@@ -67,38 +67,36 @@ int				ft_exit(t_reader *r)
 	return (0);
 }
 
-int				ft_switch_keys(t_reader *r, t_keys keys, t_historique *h)
+int				ft_switch_keys(t_reader *r, t_keys *keys, t_historique *h)
 {
-	//printf("K: %s", r->k);
+	//write(1, "K\n", 2);
+	//write(1, r->k, ft_strlen(r->k));
 	if (r->c == 4 && ft_strlen(r->s) == 0)
 		return (ft_exit(r));
 	else if (r->c == 3)
 		return (ft_exit(r));
 	else if (r->c == 28)
 		;
-	if (ft_strncmp(r->k, keys.k_left, 4) == 0)
+	if (ft_strncmp(r->k, keys->k_left, 4) == 0)
 		ft_Kleft(keys, r);
-	if (ft_strncmp(r->k, keys.k_right, 4) == 0)
+	if (ft_strncmp(r->k, keys->k_right, 4) == 0)
 		ft_Kright(keys, r);
-	if (ft_strncmp(r->k, keys.k_up, 4) == 0)
-	{
-		write(1, "Kup\n", 4);
+	if (ft_strncmp(r->k, keys->k_up, 4) == 0)
 		ft_Kup(r, h, keys);
-	}
-	if (ft_strncmp(r->k, keys.k_down, 4) == 0)
+	if (ft_strncmp(r->k, keys->k_down, 4) == 0)
 		ft_Kdown(r);
 	else if ((r->c == 127) && r->i > 0)
 		ft_Kdel(keys, r);
 	return (0);
 }
 
-void				ft_reader(t_reader *r, t_keys keys, t_historique *h, t_term *term)
+void				ft_reader(t_reader *r, t_keys *keys, t_historique *h, t_term *term)
 {
 	char		k[4];
 
 	r->k = k;
 	ft_memset(r->k, 0, 4);
-	set_keys(&keys);
+	set_keys(keys);
 	r->s = ft_calloc(2, sizeof(char));
 	r->i = 0;
 	r->len = 0;
@@ -113,14 +111,14 @@ void				ft_reader(t_reader *r, t_keys keys, t_historique *h, t_term *term)
 			fill_str(r, keys);
 		if (r->c == 27 || ft_strlen(r->k) > 0)
 			r->k[ft_strlen(r->k)] = r->c;
-		else if (ft_switch_keys(r, keys, h))
+		if (ft_switch_keys(r, keys, h) > 0)
 			ft_Kenter(r, h);
 		if (ft_strlen(r->k) >=3)
 			ft_memset(r->k, 0, 4);
 		if (r->c == '\n')
 		{
-			ft_strncat(r->s, r->c, 1);
-			r->len++;
+			//ft_strncat(r->s, r->c, 1);
+			//r->len++;
 			write(1, "\n", 1);
 		 	ft_Kenter(r, h);
 		}
@@ -174,7 +172,7 @@ int				main(int	ac, char **av)
 	buff = NULL;
 	while (!r.exit)
 	{	
-		ft_reader(&r, keys, &h, &term);
+		ft_reader(&r, &keys, &h, &term);
 	}
 	write(1, "\n\n", 2);
 	i = 0;
