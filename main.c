@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:25:04 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/14 18:12:35 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/15 12:21:21 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int				main(int	ac, char **av)
 	t_keys			keys;
 	t_reader		r;
 	t_historique	h;
-	int				fd, i;
+	int				fd, fd2, i;
 /*
 ** 	set read
 */
@@ -144,47 +144,49 @@ int				main(int	ac, char **av)
 */
 	if (!(fd = open(av[1], O_RDONLY)))
 		return (0);
-
+	fd2 = dup(fd);
 	char	*buff;
 	int 	ret;
 	int 	line = 0;
 	while ((ret = get_next_line(fd, &buff)) > 0)
 	{
-		printf("[Return: %d] Line #%d: %s\n", ret, ++line, buff);
+	//	printf("[Return: %d] Line #%d: %s\n", ret, ++line, buff);
 		free(buff);
-		break;
 	}
-	printf("[Return: %d] Line #%d: %s\n", ret, ++line, buff);
+//	printf("[Return: %d] Line #%d: %s\n", ret, ++line, buff);
 	close(fd);
-	fd = 0;
 	line = (line > 0) ? line : 1;
+	printf("ok %d\n", line);
 	if (!(h.tab = malloc(sizeof(char *) * (line + 1))))
 		return (0);
 	h.tab[line] = NULL;
+	
 	if (!(fd = open(av[1], O_RDONLY)))
 		return (0);
-	printf("FD: %d", fd);
+//	printf("FD: %d\n", fd);
 	i = 0;
 	while ((ret = get_next_line(fd, &buff)) > 0)
 	{
-		//h.tab[i] = tmp;
-		printf("LOL%s\n", buff);
+		h.tab[i] = ft_strdup(buff);
 		free(buff);
-		//i++;
+		i++;
 	}
-
+	h.tab[i] = ft_strdup(buff);
+	free(buff);
+	buff = NULL;
 	// while (!r.exit)
 	// {	
 	// 	ft_reader(&r, keys, &h, &term);
 	// }
 	// write(1, "\n\n", 2);
-	// i = 0;
-	// while (h.tab[i])
-	// {
-	// 	printf("I = %d STR: %s\n", i, h.tab[i]);
-	// 	i++;
-	// }
+	i = 0;
+	while (h.tab[i])
+	{
+	//	printf("I = %d STR: %s\n", i, h.tab[i]);
+		i++;
+	}
 	//free(r.s);
 	//r.s = NULL;
+	printf("ok %d\n", i);
 	return (0);
 }
