@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:25:04 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/15 12:21:21 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/15 16:20:40 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,25 @@ int				ft_exit(t_reader *r)
 	return (0);
 }
 
-int				ft_switch_keys(t_reader *r, t_keys keys)
+int				ft_switch_keys(t_reader *r, t_keys keys, t_historique *h)
 {
+	printf("K: %s", r->k);
 	if (r->c == 4 && ft_strlen(r->s) == 0)
 		return (ft_exit(r));
 	else if (r->c == 3)
 		return (ft_exit(r));
 	else if (r->c == 28)
 		;
-	else if (ft_strncmp(r->k, keys.k_left, 4) == 0)
+	if (ft_strncmp(r->k, keys.k_left, 4) == 0)
 		ft_Kleft(keys, r);
-	else if (ft_strncmp(r->k, keys.k_right, 4) == 0)
+	if (ft_strncmp(r->k, keys.k_right, 4) == 0)
 		ft_Kright(keys, r);
-	else if (ft_strncmp(r->k, keys.k_up, 4) == 0)
-		ft_Kup(r);
-	else if (ft_strncmp(r->k, keys.k_down, 4) == 0)
+	if (ft_strncmp(r->k, keys.k_up, 4) == 0)
+	{
+		write(1, "Kup\n", 4);
+		ft_Kup(r, h, keys);
+	}
+	if (ft_strncmp(r->k, keys.k_down, 4) == 0)
 		ft_Kdown(r);
 	else if ((r->c == 127) && r->i > 0)
 		ft_Kdel(keys, r);
@@ -109,7 +113,7 @@ void				ft_reader(t_reader *r, t_keys keys, t_historique *h, t_term *term)
 			fill_str(r, keys);
 		if (r->c == 27 || ft_strlen(r->k) > 0)
 			r->k[ft_strlen(r->k)] = r->c;
-		else if (ft_switch_keys(r, keys))
+		else if (ft_switch_keys(r, keys, h))
 			ft_Kenter(r, h);
 		if (ft_strlen(r->k) >=3)
 			ft_memset(r->k, 0, 4);
@@ -149,21 +153,15 @@ int				main(int	ac, char **av)
 	int 	ret;
 	int 	line = 0;
 	while ((ret = get_next_line(fd, &buff)) > 0)
-	{
-	//	printf("[Return: %d] Line #%d: %s\n", ret, ++line, buff);
 		free(buff);
-	}
-//	printf("[Return: %d] Line #%d: %s\n", ret, ++line, buff);
 	close(fd);
 	line = (line > 0) ? line : 1;
-	printf("ok %d\n", line);
 	if (!(h.tab = malloc(sizeof(char *) * (line + 1))))
 		return (0);
 	h.tab[line] = NULL;
-	
+	h.size = line;	
 	if (!(fd = open(av[1], O_RDONLY)))
 		return (0);
-//	printf("FD: %d\n", fd);
 	i = 0;
 	while ((ret = get_next_line(fd, &buff)) > 0)
 	{
@@ -174,19 +172,18 @@ int				main(int	ac, char **av)
 	h.tab[i] = ft_strdup(buff);
 	free(buff);
 	buff = NULL;
-	// while (!r.exit)
-	// {	
-	// 	ft_reader(&r, keys, &h, &term);
-	// }
-	// write(1, "\n\n", 2);
+	while (!r.exit)
+	{	
+		ft_reader(&r, keys, &h, &term);
+	}
+	write(1, "\n\n", 2);
 	i = 0;
 	while (h.tab[i])
 	{
-	//	printf("I = %d STR: %s\n", i, h.tab[i]);
+		printf("I = %d STR: %s\n", i, h.tab[i]);
 		i++;
 	}
 	//free(r.s);
 	//r.s = NULL;
-	printf("ok %d\n", i);
 	return (0);
 }

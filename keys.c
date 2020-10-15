@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 13:11:33 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/14 12:53:05 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/15 16:14:16 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,29 +53,78 @@ int		ft_Kdel(t_keys keys, t_reader *r)
 	return (1);
 }
 
-int		ft_Kenter(t_reader *r, t_historique *h)
+int         ft_avlen(char **env)
 {
+    int     i;
+    i = 0;
+    if (!env)
+        return (0);
+    while (env[i])
+        i++;
+    return (i);
+}
+
+char        **ft_new_tab(char *var, char **env)
+{
+    int     i;
+	int		l;
+    char    **new;
+
+    if (!(new = malloc(sizeof(char *) * (ft_avlen(env) + 2))))
+        exit(-1000);
+    i = 0;
+	new[0] = ft_strdup(var);
+    while (env[i])
+	{
+        new[i + 1] = ft_strdup(env[i]);
+		i++;
+	}
+	new[i + 1] = NULL;
+    return (new);
+}
+
+void	ft_add_input(t_reader *r, t_historique *h)
+{
+	char **tmp;
 	int		i;
 
-	i = S_MAX - 2;
-	while (i >= 0)
+	tmp = ft_new_tab(r->s, h->tab);
+	i = -1;
+	while (h->tab[++i])
 	{
-		h->tab[i + 1] = h->tab[i];
-		--i;
+		free(h->tab[i]);
+		h->tab[i] = NULL;
 	}
-	h->tab[0] = r->s;
-	if (h->tab[S_MAX - 1] != NULL)
-	{
-		free(h->tab[S_MAX - 1]);
-		h->tab[S_MAX - 1] = NULL;
-	}
+	free(h->tab);
+	h->tab = NULL;
+	h->tab = tmp;
+}
+
+int		ft_Kenter(t_reader *r, t_historique *h)
+{
+	ft_add_input(r, h);
 	r->ent = 1;
+	h->size++;
 	return (1);
 }
 
-void	ft_Kup(t_reader *r)
+void	ft_Kup(t_reader *r, t_historique *h, t_keys keys)
 {
-	write(1, "Kup", 3);
+	int i;
+
+	if (h->i == 0)
+		ft_add_input(r, h);
+	h->i++;
+	i = 0;
+	while (i++ < r->len)
+		write(1, &keys.k_left, 3);
+	i = 0;
+	while (i++ < r->len)
+		write(1, " ", 1);
+	i = 0;
+	while (i++ < r->len)
+		write(1, &keys.k_left, 3);
+	write(1, h->tab[h->i], ft_strlen(h->tab[h->i]));
 }
 
 void	ft_Kdown(t_reader *r)

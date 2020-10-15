@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 15:03:12 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/14 16:21:10 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/15 16:13:30 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef	struct	s_historique
 {
 	int			i;
 	char		**tab;
+	int			size;
 }				t_historique;
 
 
@@ -68,7 +69,7 @@ int		ft_Kleft(t_keys keys, t_reader *reader);
 int		ft_Kright(t_keys keys, t_reader *reader);
 void    *ft_memmove(void *dst, const void *src, size_t len);
 int		ft_Kdel(t_keys keys, t_reader *reader);
-void	ft_Kup(t_reader *r);
+void	ft_Kup(t_reader *r, t_historique *h, t_keys keys);
 void	ft_Kdown(t_reader *r);
 int		ft_Kenter(t_reader *r, t_historique *h);
 
