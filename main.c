@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:25:04 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/15 16:20:40 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/15 16:29:09 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int				ft_exit(t_reader *r)
 
 int				ft_switch_keys(t_reader *r, t_keys keys, t_historique *h)
 {
-	printf("K: %s", r->k);
+	//printf("K: %s", r->k);
 	if (r->c == 4 && ft_strlen(r->s) == 0)
 		return (ft_exit(r));
 	else if (r->c == 3)

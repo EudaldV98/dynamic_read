@@ -3,92 +3,76 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lmoulin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/18 11:10:16 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/14 15:16:43 by jvaquer          ###   ########.fr       */
+/*   Created: 2019/11/06 13:24:16 by lmoulin           #+#    #+#             */
+/*   Updated: 2020/10/15 12:03:10 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
+#include <fcntl.h>
 
-void			*ft_memset2(void *b, int c, size_t len)
+char	*ft_realloc(char *s1, char *s2)
 {
-	unsigned char	*ptr;
+	char	*new;
+	int		i;
+	int		k;
 
-	ptr = (unsigned char*)b;
-	while (len > 0)
-	{
-		*(ptr++) = (unsigned char)c;
-		len--;
-	}
-	return (b);
-}
-
-void			*ft_calloc2(size_t count, size_t size)
-{
-	unsigned char	*ptr;
-
-	if (count == 0 || size == 0)
-	{
-		count = 1;
-		size = 1;
-	}
-	if (!(ptr = (unsigned char *)malloc(sizeof(size) * count)))
+	if (!(new = malloc(sizeof(char) * (ft_strlen2(s1) + ft_strlen2(s2) + 1))))
 		return (NULL);
-	ft_memset2(ptr, 0, count);
-	return ((void *)ptr);
+	i = 0;
+	if (s1)
+	{
+		while (s1[i])
+		{
+			new[i] = s1[i];
+			i++;
+		}
+	}
+	k = 0;
+	if (s2)
+		while (s2[k])
+			new[i++] = s2[k++];
+	new[i] = '\0';
+	free(s1);
+	s1 = NULL;
+	return (new);
 }
 
-static char		*new_str(char *string)
+int		get_char(int fd, char **line, char *buf)
 {
-	if (ft_strchr(string, '\n'))
-	{
-		ft_strcpy(string, ft_strchr(string, '\n') + 1);
-		return (string);
-	}
-	else if (ft_strlen2(string) > 0)
-	{
-		ft_strcpy(string, ft_strchr(string, '\0'));
-		return (string);
-	}
-	return (NULL);
-}
+	int		ret;
 
-void			ft_strdel(char **as)
-{
-	if (as != NULL)
-	{
-		*as = NULL;
-		free(*as);
-	}
-}
-
-int				get_next_line(int fd, char **line)
-{
-	char			buff[BUFFER_SIZE + 1];
-	static char		*st[MAX];
-	int				r;
-	char			*tmp;
-
-	if (fd < 0 || BUFFER_SIZE < 1 || !line || read(fd, buff, 0) < 0)
-		return (-1);
-	if (!(st[fd]) && !(st[fd] = ft_calloc2(1, sizeof(int))))
-		return (-1);
-	while (!(ft_strchr(st[fd], '\n')) && (r = read(fd, buff, BUFFER_SIZE)) > 0)
-	{
-		buff[r] = '\0';
-		tmp = st[fd];
-		st[fd] = ft_strjoin(tmp, buff, r);
-		free(tmp);
-	}
-	tmp = ft_substr(st[fd], 0, ft_strlen2(st[fd]));
-	*line = tmp;
-	ft_strdel(&tmp);
-	if (ft_strchr(st[fd], '\n') == NULL)
-	{
-		free(st[fd]);
+	ret = read(fd, buf, BUFFER_SIZE - BUFFER_SIZE + 1);
+	if (ret == 0)
 		return (0);
-	}
-	return ((new_str(st[fd]) == NULL) ? 0 : 1);
+	if (buf[0] == '\n')
+		return (1);
+	buf[1] = '\0';
+	*line = ft_realloc(*line, buf);
+	return (2);
+}
+
+int		get_next_line(int fd, char **line)
+{
+	int			ret;
+	char		buf[BUFFER_SIZE - BUFFER_SIZE + 2];
+
+	if (fd < 0 || !line || BUFFER_SIZE < 1 ||
+		!(*line = malloc(sizeof(char) * 1)))
+		return (-1);
+	*line[0] = '\0';
+	if ((ret = read(fd, buf, BUFFER_SIZE - BUFFER_SIZE + 1)) < 0)
+		return (-1);
+	if (ret == 0)
+		return (0);
+	buf[1] = '\0';
+	if (buf[0] == '\n')
+		return (1);
+	*line = ft_realloc(*line, buf);
+	while ((ret = get_char(fd, line, buf)) == 2)
+		;
+	return (ret);
 }
