@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:25:04 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/16 11:20:24 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/16 18:00:27 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ int				ft_exit(t_reader *r)
 
 int				ft_switch_keys(t_reader *r, t_keys *keys, t_historique *h)
 {
-	//write(1, "K\n", 2);
-	//write(1, r->k, ft_strlen(r->k));
 	if (r->c == 4 && ft_strlen(r->s) == 0)
 		return (ft_exit(r));
 	else if (r->c == 3)
@@ -102,6 +100,7 @@ void				ft_reader(t_reader *r, t_keys *keys, t_historique *h, t_term *term)
 	r->len = 0;
 	r->exit = 0;
 	r->ent = 0;
+	//h->i = 0;
 	while (!r->exit && !r->ent)
 	{
 		tcsetattr(0, 0, &term->set);
@@ -144,43 +143,62 @@ int				main(int	ac, char **av)
 /*
 ** 	set vars
 */
-	if (!(fd = open(av[1], O_RDONLY)))
+	if (!(fd = open(av[1], O_CREAT | O_RDWR, (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH))))
 		return (0);
 	fd2 = dup(fd);
 	char	*buff;
 	int 	ret;
 	int 	line = 0;
-	while ((ret = get_next_line(fd, &buff)) > 0)
-		free(buff);
-	close(fd);
+	// while ((ret = get_next_line(fd, &buff)) > 0)
+	// {
+	// 	if (buff[0] != '\n' && buff[0] != '\0')
+	// 		line++;
+	// 	free(buff);
+	// }
+	// close(fd);
 	line = (line > 0) ? line : 1;
+	//printf("LINE: %d\n", line);
 	if (!(h.tab = malloc(sizeof(char *) * (line + 1))))
 		return (0);
 	h.tab[line] = NULL;
-	h.size = line;	
-	if (!(fd = open(av[1], O_RDONLY)))
-		return (0);
-	i = 0;
-	while ((ret = get_next_line(fd, &buff)) > 0)
-	{
-		h.tab[i] = ft_strdup(buff);
-		free(buff);
-		i++;
-	}
-	h.tab[i] = ft_strdup(buff);
-	free(buff);
-	buff = NULL;
+	h.size = line;
+	h.i = 0;
+	// if (!(fd = open(av[1], O_RDONLY)))
+	// 	return (0);
+	// i = 0;
+	// while ((ret = get_next_line(fd, &buff)) > 0)
+	// {
+	// 	if (buff[0] != '\n' && buff[0] != '\0')
+	// 	{
+	// 		h.tab[i] = ft_strdup(buff);
+	// 		i++;
+	// 	}
+	// 	free(buff);
+	// }
+	// if (buff[0] != '\n' && buff[0] != '\0')
+	// 	h.tab[i] = ft_strdup(buff);
+	// free(buff);
+	// buff = NULL;
+
 	while (!r.exit)
 	{	
 		ft_reader(&r, &keys, &h, &term);
 	}
-	write(1, "\n\n", 2);
-	i = 0;
-	while (h.tab[i])
-	{
-		printf("I = %d STR: %s\n", i, h.tab[i]);
-		i++;
-	}
+	// if (!(fd = open(av[1],O_RDWR)))
+	// 	return (0);
+	// i = 0;
+	// while (h.tab[i])
+	// {
+	// 	if (h.tab[i][0] != '\n')
+	// 	{
+	// 		//ft_strncat(h.tab[i], '\n', 1);
+	// 		printf("\nI = %d STR: %s", i, h.tab[i]);
+	// 		write(fd, h.tab[i], ft_strlen(h.tab[i]));
+	// 		write(fd, "\n", 1);
+	// 	}
+	// 	i++;
+	// }
+	// close(fd);
 	//free(r.s);
 	//r.s = NULL;
 	return (0);
