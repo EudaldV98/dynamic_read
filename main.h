@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 15:03:12 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/15 17:19:35 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/16 11:19:01 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int		ft_Kright(t_keys *keys, t_reader *reader);
 void    *ft_memmove(void *dst, const void *src, size_t len);
 int		ft_Kdel(t_keys *keys, t_reader *reader);
 int		ft_Kup(t_reader *r, t_historique *h, t_keys *keys);
-void	ft_Kdown(t_reader *r);
+int		ft_Kdown(t_reader *r, t_historique *h, t_keys *keys);
 int		ft_Kenter(t_reader *r, t_historique *h);
 
 

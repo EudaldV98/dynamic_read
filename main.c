@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:25:04 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/15 17:37:52 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/16 11:20:24 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int				ft_switch_keys(t_reader *r, t_keys *keys, t_historique *h)
 	if (ft_strncmp(r->k, keys->k_up, 4) == 0)
 		ft_Kup(r, h, keys);
 	if (ft_strncmp(r->k, keys->k_down, 4) == 0)
-		ft_Kdown(r);
+		ft_Kdown(r, h, keys);
 	else if ((r->c == 127) && r->i > 0)
 		ft_Kdel(keys, r);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 13:11:33 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/15 17:39:30 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/16 11:21:45 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,10 +133,29 @@ int		ft_Kup(t_reader *r, t_historique *h, t_keys *keys)
 	r->s = ft_strdup(h->tab[h->i]);
 	write(1, r->s, ft_strlen(r->s));
 	r->i = ft_strlen(r->s);
+	r->len = ft_strlen(r->s);
 	return (0);
 }
 
-void	ft_Kdown(t_reader *r)
+int		ft_Kdown(t_reader *r, t_historique *h, t_keys *keys)
 {
-	write(1, "Kdown", 5);
+	int i;
+
+	if (h->i > 0)
+		h->i--;
+	i = 0;
+	while (++i <= ft_strlen(r->s) - ft_strlen(&r->s[r->i]))
+		write(1, keys->k_left, 3);
+	i = 0;
+	while (++i <= ft_strlen(r->s))
+		write(1, " ", 1);
+	i = 0;
+	while (++i <= ft_strlen(r->s))
+		write(1, keys->k_left, 3);
+	free(r->s);
+	r->s = ft_strdup(h->tab[h->i]);
+	write(1, r->s, ft_strlen(r->s));
+	r->i = ft_strlen(r->s);
+	r->len = ft_strlen(r->s);
+	return (0);
 }
