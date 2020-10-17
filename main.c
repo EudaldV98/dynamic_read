@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:25:04 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/16 18:00:27 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/18 00:07:15 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ int				main(int	ac, char **av)
 		return (0);
 	term.set.c_lflag &= ~(ICANON | ECHO | ISIG);
 /*
-** 	set vars
+** 	First read for the size and malloc
 */
 	if (!(fd = open(av[1], O_CREAT | O_RDWR, (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH))))
 		return (0);
@@ -149,57 +149,61 @@ int				main(int	ac, char **av)
 	char	*buff;
 	int 	ret;
 	int 	line = 0;
-	// while ((ret = get_next_line(fd, &buff)) > 0)
-	// {
-	// 	if (buff[0] != '\n' && buff[0] != '\0')
-	// 		line++;
-	// 	free(buff);
-	// }
-	// close(fd);
+	while ((ret = get_next_line(fd, &buff)) > 0)
+	{
+		if (buff[0] != '\n' && buff[0] != '\0')
+			line++;
+		free(buff);
+	}
+	close(fd);
 	line = (line > 0) ? line : 1;
-	//printf("LINE: %d\n", line);
 	if (!(h.tab = malloc(sizeof(char *) * (line + 1))))
 		return (0);
 	h.tab[line] = NULL;
 	h.size = line;
 	h.i = 0;
-	// if (!(fd = open(av[1], O_RDONLY)))
-	// 	return (0);
-	// i = 0;
-	// while ((ret = get_next_line(fd, &buff)) > 0)
-	// {
-	// 	if (buff[0] != '\n' && buff[0] != '\0')
-	// 	{
-	// 		h.tab[i] = ft_strdup(buff);
-	// 		i++;
-	// 	}
-	// 	free(buff);
-	// }
-	// if (buff[0] != '\n' && buff[0] != '\0')
-	// 	h.tab[i] = ft_strdup(buff);
-	// free(buff);
-	// buff = NULL;
-
+/*
+** 	Second read to fill tab
+*/
+	if (!(fd = open(av[1], O_RDONLY)))
+		return (0);
+	i = 0;
+	while ((ret = get_next_line(fd, &buff)) > 0)
+	{
+		if (buff[0] != '\n' && buff[0] != '\0')
+		{
+			h.tab[i] = ft_strdup(buff);
+			i++;
+		}
+		free(buff);
+	}
+	if (buff[0] != '\n' && buff[0] != '\0')
+		h.tab[i] = ft_strdup(buff);
+	free(buff);
+	buff = NULL;
+/*
+** 	Main function
+*/
+	r.exit = 0;
+	h.new_s = 0;
 	while (!r.exit)
 	{	
 		ft_reader(&r, &keys, &h, &term);
 	}
-	// if (!(fd = open(av[1],O_RDWR)))
-	// 	return (0);
-	// i = 0;
-	// while (h.tab[i])
-	// {
-	// 	if (h.tab[i][0] != '\n')
-	// 	{
-	// 		//ft_strncat(h.tab[i], '\n', 1);
-	// 		printf("\nI = %d STR: %s", i, h.tab[i]);
-	// 		write(fd, h.tab[i], ft_strlen(h.tab[i]));
-	// 		write(fd, "\n", 1);
-	// 	}
-	// 	i++;
-	// }
-	// close(fd);
-	//free(r.s);
-	//r.s = NULL;
+/*
+**	Last open to fill txt file
+*/
+	if (!(fd = open(av[1],O_RDWR | O_APPEND)))
+		return (0);
+	i = 0;
+	while (h.tab[i] && (i < h.new_s))
+	{
+		write(fd, h.tab[i], ft_strlen(h.tab[i]));
+		write(fd, "\n", 1);
+		i++;
+	}
+	close(fd);
+	free(r.s);
+	r.s = NULL;
 	return (0);
 }

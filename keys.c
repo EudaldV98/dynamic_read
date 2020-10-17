@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 13:11:33 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/16 18:00:53 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/17 23:51:47 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int		ft_Kenter(t_reader *r, t_historique *h)
 		r->ent = 1;
 		h->size++;
 		h->i = 0;
+		h->new_s++;
 	}
 	return (1);
 }
