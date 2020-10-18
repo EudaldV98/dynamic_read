@@ -1,5 +1,7 @@
-rm -rf *
-pwd
+cat t
+cd ..
+wc
+echo non
+rm -rf 
 ls
-lol
-env
+pwd

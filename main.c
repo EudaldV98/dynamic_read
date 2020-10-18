@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:25:04 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/18 00:07:15 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/18 23:57:13 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ void				ft_reader(t_reader *r, t_keys *keys, t_historique *h, t_term *term)
 	r->len = 0;
 	r->exit = 0;
 	r->ent = 0;
-	//h->i = 0;
 	while (!r->exit && !r->ent)
 	{
 		tcsetattr(0, 0, &term->set);
@@ -161,7 +160,7 @@ int				main(int	ac, char **av)
 		return (0);
 	h.tab[line] = NULL;
 	h.size = line;
-	h.i = 0;
+	h.i = -1;
 /*
 ** 	Second read to fill tab
 */
@@ -193,10 +192,10 @@ int				main(int	ac, char **av)
 /*
 **	Last open to fill txt file
 */
-	if (!(fd = open(av[1],O_RDWR | O_APPEND)))
+	if (!(fd = open(av[1],O_WRONLY)))
 		return (0);
 	i = 0;
-	while (h.tab[i] && (i < h.new_s))
+	while (h.tab[i])
 	{
 		write(fd, h.tab[i], ft_strlen(h.tab[i]));
 		write(fd, "\n", 1);
