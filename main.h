@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 15:03:12 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 19:07:09 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/19 19:39:22 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,8 @@ void    ft_strdel(char **s);
 void	ft_free_av(char **av);
 void	ft_strdel_av(char ***av);
 void	free_histo(t_reader *r, t_historique *h);
+int		ctrl(t_reader *r);
+int		ctrl_kdel(t_keys *keys, t_reader *r);
+
 
 #endif
