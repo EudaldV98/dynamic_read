@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 13:11:33 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 00:26:35 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/19 10:45:24 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,13 +117,7 @@ int		ft_Kup(t_reader *r, t_historique *h, t_keys *keys)
 {
 	int i;
 
-	if (h->i == -1) //ft_strlen(r->s) > 0 && (r->s[0] != '\n' || r->s[0] != '\0'))
-	{
-		printf("\nI: %d\n", h->i);
-		ft_add_input(r, h);
-		h->size++;
-	}
-	if (h->i < h->size)
+	if (h->i < h->size - 1)
 		h->i++;
 	i = 0;
 	while (++i <= ft_strlen(r->s) - ft_strlen(&r->s[r->i]))
@@ -146,21 +140,40 @@ int		ft_Kdown(t_reader *r, t_historique *h, t_keys *keys)
 {
 	int i;
 
-	if (h->i > 0)
-		h->i--;
-	i = 0;
-	while (++i <= ft_strlen(r->s) - ft_strlen(&r->s[r->i]))
-		write(1, keys->k_left, 3);
-	i = 0;
-	while (++i <= ft_strlen(r->s))
-		write(1, " ", 1);
-	i = 0;
-	while (++i <= ft_strlen(r->s))
-		write(1, keys->k_left, 3);
-	free(r->s);
-	r->s = ft_strdup(h->tab[h->i]);
-	write(1, r->s, ft_strlen(r->s));
-	r->i = ft_strlen(r->s);
-	r->len = ft_strlen(r->s);
+	if (h->i == 0)
+	{
+		i = 0;
+		while (++i <= ft_strlen(r->s) - ft_strlen(&r->s[r->i]))
+			write(1, keys->k_left, 3);
+		i = 0;
+		while (++i <= ft_strlen(r->s))
+			write(1, " ", 1);
+		i = 0;
+		while (++i <= ft_strlen(r->s))
+			write(1, keys->k_left, 3);
+		free(r->s);
+		r->s = ft_strdup("");
+		r->i = ft_strlen(r->s);
+		r->len = ft_strlen(r->s);
+	}
+	else
+	{
+		if (h->i > 0)
+			h->i--;
+		i = 0;
+		while (++i <= ft_strlen(r->s) - ft_strlen(&r->s[r->i]))
+			write(1, keys->k_left, 3);
+		i = 0;
+		while (++i <= ft_strlen(r->s))
+			write(1, " ", 1);
+		i = 0;
+		while (++i <= ft_strlen(r->s))
+			write(1, keys->k_left, 3);
+		free(r->s);
+		r->s = ft_strdup(h->tab[h->i]);
+		write(1, r->s, ft_strlen(r->s));
+		r->i = ft_strlen(r->s);
+		r->len = ft_strlen(r->s);
+	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 15:03:12 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/17 23:51:19 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/19 09:57:20 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef	struct	s_reader
 typedef	struct	s_historique
 {
 	int			i;
+	char		*tmp;
 	char		**tab;
 	int			size;
 	int			new_s;

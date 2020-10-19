@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:25:04 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/18 23:57:13 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/19 10:45:15 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,6 @@ void				ft_reader(t_reader *r, t_keys *keys, t_historique *h, t_term *term)
 			ft_memset(r->k, 0, 4);
 		if (r->c == '\n')
 		{
-			//ft_strncat(r->s, r->c, 1);
-			//r->len++;
 			write(1, "\n", 1);
 		 	ft_Kenter(r, h);
 		}
