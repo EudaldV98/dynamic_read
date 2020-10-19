@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 15:03:12 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 11:23:44 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/19 13:01:14 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <fcntl.h>
 # include "get_next_line.h" 
 
-# define H_NAME "Historic.txt"
+# define H_NAME ".Historic.txt"
 
 typedef	struct s_term
 {
@@ -40,7 +40,7 @@ typedef	struct	s_reader
 {
 	char		c;
 	char		*s;
-	char		*k;
+	char		k[4];
 	int			i;
 	int			len;
 	int			exit;
@@ -64,14 +64,21 @@ size_t  ft_strlen(const char *s);
 size_t  ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char	*ft_strncat(char *dest, const char c, int nb);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-int		ft_Kleft(t_keys *keys, t_reader *reader);
-int		ft_Kright(t_keys *keys, t_reader *reader);
+int		ft_kleft(t_keys *keys, t_reader *reader);
+int		ft_kright(t_keys *keys, t_reader *reader);
 void    *ft_memmove(void *dst, const void *src, size_t len);
-int		ft_Kdel(t_keys *keys, t_reader *reader);
-int		ft_Kup(t_reader *r, t_historique *h, t_keys *keys);
-int		ft_Kdown(t_reader *r, t_historique *h, t_keys *keys);
-int		ft_Kenter(t_reader *r, t_historique *h);
+int		ft_kdel(t_keys *keys, t_reader *reader);
+int		ft_kup(t_reader *r, t_historique *h, t_keys *keys);
+int		ft_kdown(t_reader *r, t_historique *h, t_keys *keys);
+int		ft_kenter(t_reader *r, t_historique *h);
 int   	ft_avlen(char **env);
-
+void	ft_add_input(t_reader *r, t_historique *h);
+char    **ft_new_tab(char *var, char **env);
+void	ft_kdown_zero(t_reader *r, t_historique *h, t_keys *keys);
+int		create_history(t_historique *h);
+int		fill_history_b(t_historique *h);
+int		fill_history_a(t_historique *h, t_reader *r);
+void	set_read(t_reader *r);
+void	ft_reader(t_reader *r, t_keys *keys, t_historique *h, t_term *term);
 
 #endif

@@ -6,101 +6,35 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 13:11:33 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 11:25:35 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/19 12:18:25 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-int		ft_Kleft(t_keys *keys, t_reader *r)
+int		ft_kleft(t_keys *keys, t_reader *r)
 {
 	if (r->i > 0)
 	{
-		write(1, keys->k_left,3);
+		write(1, keys->k_left, 3);
 		r->i--;
 	}
 	ft_memset(r->k, 0, 4);
-	return (1);	
-}
-
-int		ft_Kright(t_keys *keys, t_reader *r)
-{
-	if (r->i < r->len)
-	{
-		write(1, keys->k_right,3);
-		r->i++;
-	}
-	ft_memset(r->k, 0, 4);
-	return (1);	
-}
-
-int		ft_Kdel(t_keys *keys, t_reader *r)
-{
-	int i;
-
-	ft_strlcpy(&r->s[r->i - 1], &r->s[r->i], ft_strlen(&r->s[r->i]) + 1);
-	r->i--;
-	write(1, keys->k_left, 3);
-	write(1, &r->s[r->i], ft_strlen(&r->s[r->i]));
-	write(1, " ", 1);
-	i = 0;
-	while ((size_t)(i) <= ft_strlen(&r->s[r->i]))
-	{
-		write(1, keys->k_left, 3);
-		i++;
-	}
-	r->len--;
 	return (1);
 }
 
-int         ft_avlen(char **env)
+int		ft_kright(t_keys *keys, t_reader *r)
 {
-    int     i;
-    i = 0;
-    if (!env)
-        return (0);
-    while (env[i])
-        i++;
-    return (i);
-}
-
-char        **ft_new_tab(char *var, char **env)
-{
-    int     i;
-	int		l;
-    char    **new;
-
-    if (!(new = malloc(sizeof(char *) * (ft_avlen(env) + 2))))
-        exit(-1000);
-    i = 0;
-	new[0] = ft_strdup(var);
-    while (env[i])
+	if (r->i < r->len)
 	{
-        new[i + 1] = ft_strdup(env[i]);
-		i++;
+		write(1, keys->k_right, 3);
+		r->i++;
 	}
-	new[i + 1] = NULL;
-    return (new);
+	ft_memset(r->k, 0, 4);
+	return (1);
 }
 
-void	ft_add_input(t_reader *r, t_historique *h)
-{
-	char **tmp;
-	int		i;
-
-	tmp = ft_new_tab(r->s, h->tab);
-	i = -1;
-	while (h->tab[++i])
-	{
-		free(h->tab[i]);
-		h->tab[i] = NULL;
-	}
-	free(h->tab);
-	h->tab = NULL;
-	h->tab = tmp;
-}
-
-int		ft_Kenter(t_reader *r, t_historique *h)
+int		ft_kenter(t_reader *r, t_historique *h)
 {
 	if (ft_strlen(r->s) > 0)
 	{
@@ -112,7 +46,7 @@ int		ft_Kenter(t_reader *r, t_historique *h)
 	return (1);
 }
 
-int		ft_Kup(t_reader *r, t_historique *h, t_keys *keys)
+int		ft_kup(t_reader *r, t_historique *h, t_keys *keys)
 {
 	int i;
 
@@ -137,26 +71,12 @@ int		ft_Kup(t_reader *r, t_historique *h, t_keys *keys)
 	return (0);
 }
 
-int		ft_Kdown(t_reader *r, t_historique *h, t_keys *keys)
+int		ft_kdown(t_reader *r, t_historique *h, t_keys *keys)
 {
 	int i;
 
 	if (h->i == 0)
-	{
-		i = 0;
-		while (++i <= ft_strlen(r->s) - ft_strlen(&r->s[r->i]))
-			write(1, keys->k_left, 3);
-		i = 0;
-		while (++i <= ft_strlen(r->s))
-			write(1, " ", 1);
-		i = 0;
-		while (++i <= ft_strlen(r->s))
-			write(1, keys->k_left, 3);
-		free(r->s);
-		r->s = ft_strdup("");
-		r->i = ft_strlen(r->s);
-		r->len = ft_strlen(r->s);
-	}
+		ft_kdown_zero(r, h, keys);
 	else
 	{
 		if (h->i > 0)
