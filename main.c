@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:25:04 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 10:45:15 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/19 11:25:06 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,20 +140,22 @@ int				main(int	ac, char **av)
 /*
 ** 	First read for the size and malloc
 */
-	if (!(fd = open(av[1], O_CREAT | O_RDWR, (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH))))
+	if (!(fd = open(H_NAME, O_CREAT | O_RDWR, (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH))))
 		return (0);
 	fd2 = dup(fd);
 	char	*buff;
 	int 	ret;
-	int 	line = 0;
+	int 	line;
+	h.line = 0;
 	while ((ret = get_next_line(fd, &buff)) > 0)
 	{
 		if (buff[0] != '\n' && buff[0] != '\0')
-			line++;
+			h.line++;
 		free(buff);
 	}
 	close(fd);
-	line = (line > 0) ? line : 1;
+	//printf("\nLINE: %d\n", line);
+	line = (h.line > 0) ? h.line : 1;
 	if (!(h.tab = malloc(sizeof(char *) * (line + 1))))
 		return (0);
 	h.tab[line] = NULL;
@@ -162,7 +164,7 @@ int				main(int	ac, char **av)
 /*
 ** 	Second read to fill tab
 */
-	if (!(fd = open(av[1], O_RDONLY)))
+	if (!(fd = open(H_NAME, O_RDONLY)))
 		return (0);
 	i = 0;
 	while ((ret = get_next_line(fd, &buff)) > 0)
@@ -182,7 +184,6 @@ int				main(int	ac, char **av)
 ** 	Main function
 */
 	r.exit = 0;
-	h.new_s = 0;
 	while (!r.exit)
 	{	
 		ft_reader(&r, &keys, &h, &term);
@@ -190,7 +191,7 @@ int				main(int	ac, char **av)
 /*
 **	Last open to fill txt file
 */
-	if (!(fd = open(av[1],O_WRONLY)))
+	if (!(fd = open(H_NAME,O_WRONLY)))
 		return (0);
 	i = 0;
 	while (h.tab[i])

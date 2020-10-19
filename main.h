@@ -6,24 +6,21 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 15:03:12 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 09:57:20 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/19 11:23:44 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAIN_H
 # define MAIN_H
 
-# define S_MAX 20
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <termios.h>
 # include <fcntl.h>
 # include "get_next_line.h" 
-/*
-** #include <termcap.h>
-** #include <term.h>
-*/
+
+# define H_NAME "Historic.txt"
 
 typedef	struct s_term
 {
@@ -56,7 +53,7 @@ typedef	struct	s_historique
 	char		*tmp;
 	char		**tab;
 	int			size;
-	int			new_s;
+	int			line;
 }				t_historique;
 
 

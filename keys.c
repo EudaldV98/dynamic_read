@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 13:11:33 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 10:45:24 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/19 11:25:35 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ int		ft_Kenter(t_reader *r, t_historique *h)
 		r->ent = 1;
 		h->size++;
 		h->i = -1;
-		h->new_s++;
 	}
 	return (1);
 }
@@ -117,6 +116,8 @@ int		ft_Kup(t_reader *r, t_historique *h, t_keys *keys)
 {
 	int i;
 
+	if (h->line == 0)
+		return (0);
 	if (h->i < h->size - 1)
 		h->i++;
 	i = 0;
