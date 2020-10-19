@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:55:31 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 13:00:42 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/19 19:07:40 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,11 @@ void			set_read(t_reader *r)
 	r->len = 0;
 	r->exit = 0;
 	r->ent = 0;
+}
+
+void		free_histo(t_reader *r, t_historique *h)
+{
+	ft_strdel_av(&h->tab);
+	ft_strdel(&r->s);
+	ft_strdel(&h->tmp);
 }

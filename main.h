@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 15:03:12 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 13:01:14 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/19 19:07:09 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,9 @@ int		fill_history_b(t_historique *h);
 int		fill_history_a(t_historique *h, t_reader *r);
 void	set_read(t_reader *r);
 void	ft_reader(t_reader *r, t_keys *keys, t_historique *h, t_term *term);
+void    ft_strdel(char **s);
+void	ft_free_av(char **av);
+void	ft_strdel_av(char ***av);
+void	free_histo(t_reader *r, t_historique *h);
 
 #endif

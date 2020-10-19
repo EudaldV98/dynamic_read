@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:25:04 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 16:19:37 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/19 19:09:05 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,11 @@ int				main(int ac, char **av)
 	while (!r.exit)
 	{
 		ft_reader(&r, &keys, &h, &term);
+		//write(1, "STR: ", 5);
+		//write(1, r.s, ft_strlen(r.s));
 	}
 	if (!(fill_history_a(&h, &r)))
 		return (0);
+	free_histo(&r, &h);
 	return (0);
 }
