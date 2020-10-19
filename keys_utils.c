@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:09:00 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 12:21:05 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/19 15:27:36 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void		ft_kdown_zero(t_reader *r, t_historique *h, t_keys *keys)
 {
 	int		i;
 
+	if (h->i == 0)
+		h->i--;
 	i = 0;
 	while (++i <= ft_strlen(r->s) - ft_strlen(&r->s[r->i]))
 		write(1, keys->k_left, 3);

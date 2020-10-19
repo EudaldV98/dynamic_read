@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:25:04 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 13:03:20 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/19 14:20:51 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ int				main(int ac, char **av)
 		return (0);
 	r.exit = 0;
 	while (!r.exit)
+	{
+		//printf("\nLINE: %d SIZE: %d I: %d\n", h.line, h.size, h.i);
 		ft_reader(&r, &keys, &h, &term);
+	}
 	if (!(fill_history_a(&h, &r)))
 		return (0);
 	return (0);

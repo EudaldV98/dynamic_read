@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:29:07 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 12:43:39 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/19 15:24:07 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int			create_history(t_historique *h)
 		free(buff);
 	}
 	close(fd);
-	line = (h->line > 0) ? h->line : 1;
+	line = (h->line > 0) ? h->line + 1 : 1;
 	if (!(h->tab = malloc(sizeof(char *) * (line + 1))))
 		return (0);
 	h->tab[line] = NULL;
