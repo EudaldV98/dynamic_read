@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:09:00 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 15:27:36 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/19 16:11:00 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ void		ft_kdown_zero(t_reader *r, t_historique *h, t_keys *keys)
 {
 	int		i;
 
-	if (h->i == 0)
-		h->i--;
 	i = 0;
 	while (++i <= ft_strlen(r->s) - ft_strlen(&r->s[r->i]))
 		write(1, keys->k_left, 3);
@@ -47,9 +45,16 @@ void		ft_kdown_zero(t_reader *r, t_historique *h, t_keys *keys)
 	while (++i <= ft_strlen(r->s))
 		write(1, keys->k_left, 3);
 	free(r->s);
-	r->s = ft_strdup("");
+	if (h->size >= 2)
+	{
+		r->s = ft_strdup(h->tmp);
+		write(1, r->s, ft_strlen(r->s));
+	}
+	else
+		r->s = ft_strdup("");
 	r->i = ft_strlen(r->s);
 	r->len = ft_strlen(r->s);
+	h->i--;
 }
 
 void		ft_add_input(t_reader *r, t_historique *h)

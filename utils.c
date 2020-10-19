@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 15:00:40 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/13 16:57:27 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/19 15:29:32 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,94 +14,94 @@
 
 void    *ft_memset(void *b, int c, size_t len)
 {
-        unsigned int    i;
-        char                    *tab;
+		unsigned int    i;
+		char                    *tab;
 
-        i = 0;
-        tab = (char*)b;
-        while (i < len)
-        {
-                *tab = c;
-                tab++;
-                i++;
-        }
-        return (b);
+		i = 0;
+		tab = (char*)b;
+		while (i < len)
+		{
+				*tab = c;
+				tab++;
+				i++;
+		}
+		return (b);
 }
 
 void    *ft_calloc(size_t count, size_t size)
 {
-        char    *ptr;
+		char    *ptr;
 
-        if (count == 0 || size == 0)
-        {
-                count = 1;
-                size = 1;
-        }
-        if (!(ptr = malloc(count * size)))
-                return (NULL);
-        ptr = ft_memset(ptr, '\0', count * size);
-        return (ptr);
+		if (count == 0 || size == 0)
+		{
+				count = 1;
+				size = 1;
+		}
+		if (!(ptr = malloc(count * size)))
+				return (NULL);
+		ptr = ft_memset(ptr, '\0', count * size);
+		return (ptr);
 }
 
 char    *ft_strdup(const char *s1)
 {
-        char    *copy;
-        int             len;
-        int             i;
+		char    *copy;
+		int             len;
+		int             i;
 
-        if (!s1)
-                return (NULL);
-        len = 0;
-        while (s1[len])
-                len++;
-        copy = malloc((len + 1) * sizeof(char));
-        if (copy != NULL)
-        {
-                i = 0;
-                while (s1[i])
-                {
-                        copy[i] = s1[i];
-                        i++;
-                }
-                copy[i] = '\0';
-                return (copy);
-        }
-        return (NULL);
+		if (!s1)
+				return (NULL);
+		len = 0;
+		while (s1[len])
+				len++;
+		copy = malloc((len + 1) * sizeof(char));
+		if (copy != NULL)
+		{
+				i = 0;
+				while (s1[i])
+				{
+						copy[i] = s1[i];
+						i++;
+				}
+				copy[i] = '\0';
+				return (copy);
+		}
+		return (NULL);
 }
 
 size_t          ft_strlen(const char *s)
 {
-        size_t len;
+		size_t len;
 
-        if (!s)
-                return (0);
-        len = 0;
-        while (s[len])
-                len++;
-        return (len);
+		if (!s)
+				return (0);
+		len = 0;
+		while (s[len])
+				len++;
+		return (len);
 }
 
 size_t  ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-        size_t  i;
-        size_t  len;
+		size_t  i;
+		size_t  len;
 
-        if (!dst || !src)
-                return (0);
-        len = 0;
-        i = 0;
-        while (src[len])
-                len++;
-        if (dstsize > 0)
-        {
-                while (i < (dstsize - 1) && src[i])
-                {
-                        dst[i] = src[i];
-                        i++;
-                }
-                dst[i] = '\0';
-        }
-        return (len);
+		if (!dst || !src)
+				return (0);
+		len = 0;
+		i = 0;
+		while (src[len])
+				len++;
+		if (dstsize > 0)
+		{
+				while (i < (dstsize - 1) && src[i])
+				{
+						dst[i] = src[i];
+						i++;
+				}
+				dst[i] = '\0';
+		}
+		return (len);
 }
 
 char	*ft_strncat(char *dest,const char c, int nb)
@@ -125,51 +125,51 @@ char	*ft_strncat(char *dest,const char c, int nb)
 
 int             ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-        size_t                  i;
-        int                             res;
+		size_t                  i;
+		int                             res;
 
-        i = 0;
-        while (i < n && (s1[i] != '\0' || s2[i] != '\0'))
-        {
-                res = (unsigned char)s1[i] - (unsigned char)s2[i];
-                if (res != 0)
-                        return (res);
-                i++;
-        }
-        return (0);
+		i = 0;
+		while (i < n && (s1[i] != '\0' || s2[i] != '\0'))
+		{
+				res = (unsigned char)s1[i] - (unsigned char)s2[i];
+				if (res != 0)
+						return (res);
+				i++;
+		}
+		return (0);
 }
 
 void    *ft_memcpy(void *dst, const void *src, size_t n)
 {
-        int                             i;
-        unsigned char   *d;
-        unsigned char   *s;
+		int                             i;
+		unsigned char   *d;
+		unsigned char   *s;
 
-        if (!dst && !src)
-                return (NULL);
-        d = (unsigned char*)dst;
-        s = (unsigned char*)src;
-        i = 0;
-        while (n-- > 0)
-        {
-                d[i] = s[i];
-                i++;
-        }
-        return (dst);
+		if (!dst && !src)
+				return (NULL);
+		d = (unsigned char*)dst;
+		s = (unsigned char*)src;
+		i = 0;
+		while (n-- > 0)
+		{
+				d[i] = s[i];
+				i++;
+		}
+		return (dst);
 }
 
 void    *ft_memmove(void *dst, const void *src, size_t len)
 {
-        const char      *s;
-        char            *d;
+		const char      *s;
+		char            *d;
 
-        if ((!dst && !src) || !len)
-                return (dst);
-        s = src;
-        d = dst;
-        if (dst <= src)
-                return (ft_memcpy(dst, src, len));
-        while (len-- > 0)
-                d[len] = s[len];
-        return (d);
+		if ((!dst && !src) || !len)
+				return (dst);
+		s = src;
+		d = dst;
+		if (dst <= src)
+				return (ft_memcpy(dst, src, len));
+		while (len-- > 0)
+				d[len] = s[len];
+		return (d);
 }

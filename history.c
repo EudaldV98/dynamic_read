@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:29:07 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 15:24:07 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/19 15:39:54 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int			create_history(t_historique *h)
 	h->tab[line] = NULL;
 	h->size = line;
 	h->i = -1;
+	h->tmp = NULL;
 	free(buff);
 	buff = NULL;
 	return (1);

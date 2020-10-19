@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 13:11:33 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 15:21:22 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/19 16:10:27 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ int		ft_kup(t_reader *r, t_historique *h, t_keys *keys)
 		return (0);
 	if (h->i < h->size - 2)
 	{
+		if (h->i == -1)
+			h->tmp = ft_strdup(r->s);
 		h->i++;
 		i = 0;
 		while (++i <= ft_strlen(r->s) - ft_strlen(&r->s[r->i]))
@@ -77,7 +79,7 @@ int		ft_kdown(t_reader *r, t_historique *h, t_keys *keys)
 {
 	int i;
 
-	if (h->i <= 0)
+	if (h->i == 0)
 		ft_kdown_zero(r, h, keys);
 	if (h->i > 0)
 	{
