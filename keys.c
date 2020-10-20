@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 13:11:33 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 16:10:27 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/20 11:05:09 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ int		ft_kup(t_reader *r, t_historique *h, t_keys *keys)
 			h->tmp = ft_strdup(r->s);
 		h->i++;
 		i = 0;
-		while (++i <= ft_strlen(r->s) - ft_strlen(&r->s[r->i]))
+		while ((size_t)++i <= ft_strlen(r->s) - ft_strlen(&r->s[r->i]))
 			write(1, keys->k_left, 3);
 		i = 0;
-		while (++i <= ft_strlen(r->s))
+		while ((size_t)++i <= ft_strlen(r->s))
 			write(1, " ", 1);
 		i = 0;
-		while (++i <= ft_strlen(r->s))
+		while ((size_t)++i <= ft_strlen(r->s))
 			write(1, keys->k_left, 3);
 		free(r->s);
 		r->s = ft_strdup(h->tab[h->i]);
@@ -85,13 +85,13 @@ int		ft_kdown(t_reader *r, t_historique *h, t_keys *keys)
 	{
 		h->i--;
 		i = 0;
-		while (++i <= ft_strlen(r->s) - ft_strlen(&r->s[r->i]))
+		while ((size_t)++i <= ft_strlen(r->s) - ft_strlen(&r->s[r->i]))
 			write(1, keys->k_left, 3);
 		i = 0;
-		while (++i <= ft_strlen(r->s))
+		while ((size_t)++i <= ft_strlen(r->s))
 			write(1, " ", 1);
 		i = 0;
-		while (++i <= ft_strlen(r->s))
+		while ((size_t)++i <= ft_strlen(r->s))
 			write(1, keys->k_left, 3);
 		free(r->s);
 		r->s = ft_strdup(h->tab[h->i]);

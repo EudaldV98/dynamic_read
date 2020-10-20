@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:09:00 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 16:11:00 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/20 11:07:02 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ void		ft_kdown_zero(t_reader *r, t_historique *h, t_keys *keys)
 	int		i;
 
 	i = 0;
-	while (++i <= ft_strlen(r->s) - ft_strlen(&r->s[r->i]))
+	while ((size_t)++i <= ft_strlen(r->s) - ft_strlen(&r->s[r->i]))
 		write(1, keys->k_left, 3);
 	i = 0;
-	while (++i <= ft_strlen(r->s))
+	while ((size_t)++i <= ft_strlen(r->s))
 		write(1, " ", 1);
 	i = 0;
-	while (++i <= ft_strlen(r->s))
+	while ((size_t)++i <= ft_strlen(r->s))
 		write(1, keys->k_left, 3);
 	free(r->s);
 	if (h->size >= 2)
@@ -89,7 +89,6 @@ int			ft_avlen(char **env)
 char		**ft_new_tab(char *var, char **env)
 {
 	int		i;
-	int		l;
 	char	**new;
 
 	if (!(new = malloc(sizeof(char *) * (ft_avlen(env) + 2))))

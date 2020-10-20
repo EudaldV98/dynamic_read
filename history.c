@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:29:07 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 15:39:54 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/20 11:36:20 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ int			fill_history_b(t_historique *h)
 		free(buff);
 	}
 	if (buff[0] != '\n' && buff[0] != '\0')
-		h->tab[i] = ft_strdup(buff);
+		h->tab[i++] = ft_strdup(buff);
+	h->tab[i] = NULL;
 	free(buff);
 	buff = NULL;
 	return (1);

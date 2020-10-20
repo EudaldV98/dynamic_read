@@ -6,7 +6,7 @@
 /*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 11:25:04 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 19:09:05 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/20 11:37:11 by jvaquer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void			set_keys(t_keys *keys)
 	keys->k_down[3] = 0;
 }
 
-int				main(int ac, char **av)
+int				main(void)
 {
 	t_term			term;
 	t_keys			keys;
