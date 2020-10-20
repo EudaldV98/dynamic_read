@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reader.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lmoulin <lmoulin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:44:57 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 19:38:54 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/20 15:48:54 by lmoulin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,16 @@ void			ft_print_char(t_reader *r, t_keys *keys)
 
 void			fill_str(t_reader *r, t_keys *keys)
 {
-	if (r->i == r->len)
-		ft_strncat(r->s, r->c, 1);
-	else
-	{
-		ft_memmove(&r->s[r->i + 1], &r->s[r->i], r->len - r->i + 1);
-		r->s[r->i] = r->c;
-	}
+	char	*tmp;
+
+		if (!(tmp = malloc(sizeof(char) * (r->len + 2))))
+			exit(-1000);
+		ft_strlcpy(tmp, r->s, r->i + 1);
+		tmp[r->i] = r->c;
+		tmp[r->i + 1] = '\0';
+		ft_strlcpy(&tmp[r->i + 1], &r->s[r->i], ft_strlen(&r->s[r->i]) + 1);
+		ft_strdel(&r->s);
+		r->s = tmp;
 	r->i++;
 	r->len++;
 	ft_print_char(r, keys);
@@ -94,4 +97,6 @@ void			ft_reader(t_reader *r, t_keys *keys,
 		}
 		tcsetattr(0, 0, &term->backup);
 	}
+	//free(r->s);
+	//r->s = NULL;
 }

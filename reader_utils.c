@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reader_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lmoulin <lmoulin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:55:31 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/19 19:07:40 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/20 11:58:10 by lmoulin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void			set_read(t_reader *r)
 
 void		free_histo(t_reader *r, t_historique *h)
 {
-	ft_strdel_av(&h->tab);
+	ft_free_av(h->tab);
 	ft_strdel(&r->s);
 	ft_strdel(&h->tmp);
 }

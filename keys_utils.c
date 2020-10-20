@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keys_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lmoulin <lmoulin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:09:00 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/20 11:07:02 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/20 15:52:13 by lmoulin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void		ft_kdown_zero(t_reader *r, t_historique *h, t_keys *keys)
 	i = 0;
 	while ((size_t)++i <= ft_strlen(r->s))
 		write(1, keys->k_left, 3);
-	free(r->s);
+	ft_strdel(&r->s);
 	if (h->size >= 2)
 	{
 		r->s = ft_strdup(h->tmp);
@@ -65,10 +65,7 @@ void		ft_add_input(t_reader *r, t_historique *h)
 	tmp = ft_new_tab(r->s, h->tab);
 	i = -1;
 	while (h->tab[++i])
-	{
-		free(h->tab[i]);
-		h->tab[i] = NULL;
-	}
+		ft_strdel(&h->tab[i]);
 	free(h->tab);
 	h->tab = NULL;
 	h->tab = tmp;
@@ -95,7 +92,7 @@ char		**ft_new_tab(char *var, char **env)
 		exit(-1000);
 	i = 0;
 	new[0] = ft_strdup(var);
-	while (env[i])
+	while (env[i] && env[i] != NULL)
 	{
 		new[i + 1] = ft_strdup(env[i]);
 		i++;

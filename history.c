@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lmoulin <lmoulin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 12:29:07 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/20 11:36:20 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/20 15:50:34 by lmoulin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int			create_history(t_historique *h)
 	{
 		if (buff[0] != '\n' && buff[0] != '\0')
 			h->line++;
-		free(buff);
+		ft_strdel(&buff);
 	}
 	close(fd);
 	line = (h->line > 0) ? h->line + 1 : 1;
@@ -36,8 +36,7 @@ int			create_history(t_historique *h)
 	h->size = line;
 	h->i = -1;
 	h->tmp = NULL;
-	free(buff);
-	buff = NULL;
+	ft_strdel(&buff);
 	return (1);
 }
 
@@ -58,13 +57,12 @@ int			fill_history_b(t_historique *h)
 			h->tab[i] = ft_strdup(buff);
 			i++;
 		}
-		free(buff);
+		ft_strdel(&buff);
 	}
 	if (buff[0] != '\n' && buff[0] != '\0')
 		h->tab[i++] = ft_strdup(buff);
 	h->tab[i] = NULL;
-	free(buff);
-	buff = NULL;
+	ft_strdel(&buff);
 	return (1);
 }
 
@@ -86,7 +84,6 @@ int			fill_history_a(t_historique *h, t_reader *r)
 	if (!(fd = open(H_NAME, O_CREAT, 0000)))
 		return (0);
 	close(fd);
-	free(r->s);
-	r->s = NULL;
+	ft_strdel(&r->s);
 	return (1);
 }

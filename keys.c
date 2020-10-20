@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keys.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jvaquer <jvaquer@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lmoulin <lmoulin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/12 13:11:33 by jvaquer           #+#    #+#             */
-/*   Updated: 2020/10/20 11:05:09 by jvaquer          ###   ########.fr       */
+/*   Updated: 2020/10/20 15:52:06 by lmoulin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,11 @@ int		ft_kup(t_reader *r, t_historique *h, t_keys *keys)
 	if (h->i < h->size - 2)
 	{
 		if (h->i == -1)
+		{
+			if (h->tmp)
+				ft_strdel(&h->tmp);
 			h->tmp = ft_strdup(r->s);
+		}
 		h->i++;
 		i = 0;
 		while ((size_t)++i <= ft_strlen(r->s) - ft_strlen(&r->s[r->i]))
@@ -66,7 +70,7 @@ int		ft_kup(t_reader *r, t_historique *h, t_keys *keys)
 		i = 0;
 		while ((size_t)++i <= ft_strlen(r->s))
 			write(1, keys->k_left, 3);
-		free(r->s);
+		ft_strdel(&r->s);
 		r->s = ft_strdup(h->tab[h->i]);
 		write(1, r->s, ft_strlen(r->s));
 		r->i = ft_strlen(r->s);
@@ -93,7 +97,7 @@ int		ft_kdown(t_reader *r, t_historique *h, t_keys *keys)
 		i = 0;
 		while ((size_t)++i <= ft_strlen(r->s))
 			write(1, keys->k_left, 3);
-		free(r->s);
+		ft_strdel(&r->s);
 		r->s = ft_strdup(h->tab[h->i]);
 		write(1, r->s, ft_strlen(r->s));
 		r->i = ft_strlen(r->s);
